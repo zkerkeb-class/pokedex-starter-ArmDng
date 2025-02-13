@@ -1,8 +1,10 @@
-
+import './index.css';
 
 const PokemonCard = ({ pokemon }) => {
     if (!pokemon) {
-        return <div>Aucun Pokémon sélectionné</div>;
+        return <div className="error-message">
+            <h1>Aucun Pokémon sélectionné</h1>
+        </div>;
     }
 
     return (
@@ -20,26 +22,35 @@ const PokemonCard = ({ pokemon }) => {
 
             <div className="type-container">
                 {pokemon.type.map((type, index) => (
-                    <span key={index} className={`type ${type}`}>
-            {type}
-          </span>
+                    <img key={index} src={`src/assets/types/${type}.png`} alt={`${type}.png`} />
                 ))}
             </div>
 
-            <div className="stats-grid">
+
+            <div className="stats-line">
                 <div className="stat-item">
-                    <strong>Attaque</strong>
-                    <strong>{pokemon.base.Attack}</strong>
+                    <span className="stat-label">ATT</span>
+                    <span className="stat-value">{pokemon.base.Attack}</span>
                 </div>
                 <div className="stat-item">
-                    <strong>Défense</strong>
-                    <strong>{pokemon.base.Defense}</strong>
+                    <span className="stat-label">DEF</span>
+                    <span className="stat-value">{pokemon.base.Defense}</span>
                 </div>
                 <div className="stat-item">
-                    <strong>Vitesse</strong>
-                    <strong>{pokemon.base.Speed}</strong>
+                    <span className="stat-label">SPE</span>
+                    <span className="stat-value">{pokemon.base.Speed}</span>
+                </div>
+                <div className="stat-item">
+                    <span className="stat-label">S. ATK</span>
+                    <span className="stat-value">{pokemon.base["Sp. Attack"]}</span>
+                </div>
+                <div className="stat-item">
+                    <span className="stat-label">S. DEF</span>
+                    <span className="stat-value">{pokemon.base["Sp. Defense"]}</span>
                 </div>
             </div>
+
+
         </div>
     );
 };
