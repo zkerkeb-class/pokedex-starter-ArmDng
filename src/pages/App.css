@@ -1,0 +1,123 @@
+*{
+  justify-content: center;
+}
+
+.pokedex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #1e1e1e;
+  border-bottom: 2px solid #333;
+}
+
+.pokedex-header h1 {
+  color: white;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 0;
+}
+
+.create-button {
+  background-color: #ff5c5c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.create-button:hover {
+  background-color: #ff3b3b;
+}
+
+.search-container {
+  display: flex;
+}
+
+.logout-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f;
+}
+
+.pokemon-list {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  /* Configuration responsive par défaut */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+  /* Mobile - 1 colonne */
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  /* Tablette - 2 colonnes */
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Desktop - 3 colonnes */
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Grand écran - 4 colonnes */
+  @media (min-width: 1440px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+}
+
+.pagination span {
+  font-size: 16px;
+}
+
+.pagination input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.pagination input:focus {
+  outline: none;
+  border-color: #4caf50;
+}
+
+

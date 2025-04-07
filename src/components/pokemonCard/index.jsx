@@ -1,6 +1,6 @@
 import './index.css';
 
-const PokemonCard = ({ pokemon }) => {
+const PokemonCard = ({ pokemon, onClick }) => {
     if (!pokemon) {
         return <div className="error-message">
             <h1>Aucun Pokémon sélectionné</h1>
@@ -8,7 +8,7 @@ const PokemonCard = ({ pokemon }) => {
     }
 
     return (
-        <div className="pokemon-card">
+        <div className="pokemon-card" onClick={onClick}>
             <div className="card-header">
                 <span className="hp">PV: {pokemon.base.HP}</span>
                 <h2 className="pokemon-name">{pokemon.name.french}</h2>
@@ -42,11 +42,11 @@ const PokemonCard = ({ pokemon }) => {
                 </div>
                 <div className="stat-item">
                     <span className="stat-label">S. ATK</span>
-                    <span className="stat-value">{pokemon.base["Sp. Attack"]}</span>
+                    <span className="stat-value">{pokemon.base.Sp_Attack}</span>
                 </div>
                 <div className="stat-item">
                     <span className="stat-label">S. DEF</span>
-                    <span className="stat-value">{pokemon.base["Sp. Defense"]}</span>
+                    <span className="stat-value">{pokemon.base.Sp_Defense}</span>
                 </div>
             </div>
 

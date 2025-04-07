@@ -1,23 +1,10 @@
-import './App.css';
-import PokemonCard from "./components/pokemonCard/index.jsx";
-import pokemons from "./assets/pokemons.js";
+import {RouterProvider} from "react-router-dom";
+import routes from "./config/routes.jsx";
 
-
-function App() {
-
+const App = () => {
     return (
-        <>
-            <div className="pokedex-header">
-                <h1>Pokédex</h1>
-            </div>
-            <div className="pokemon-list">
-                {pokemons.map(pokemon => (
-                    <PokemonCard key={pokemon.id} pokemon={pokemon} />
-                ))}
-            </div>
-        </>
+        <RouterProvider router={routes} />
     )
-
 }
 
 export default App;
