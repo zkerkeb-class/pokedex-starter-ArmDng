@@ -210,7 +210,7 @@ const PokemonForm = () => {
                             required
                         />
                     </label>
-                    <button type="submit" className="submit-button">
+                    <button type="submit" className="submit-pokemon-button">
                         {isCreating ? "Créer" : "Modifier"}
                     </button>
                     <button type="button" className="cancel-button" onClick={handleCancel}>

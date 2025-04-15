@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import "./LoginForm.css";
 
 const LoginForm = ({ onSubmit, isRegisterMode = false }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState(""); // Utilisé uniquement pour l'inscription
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -17,7 +18,7 @@ const LoginForm = ({ onSubmit, isRegisterMode = false }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div>
+            <div className="form-group">
                 <label htmlFor="username">Nom d'utilisateur</label>
                 <input
                     type="text"
@@ -27,7 +28,7 @@ const LoginForm = ({ onSubmit, isRegisterMode = false }) => {
                     required
                 />
             </div>
-            <div>
+            <div className="form-group">
                 <label htmlFor="password">Mot de passe</label>
                 <input
                     type="password"
@@ -37,14 +38,8 @@ const LoginForm = ({ onSubmit, isRegisterMode = false }) => {
                     required
                 />
             </div>
-            {!isRegisterMode && (
-                <div className="register-link">
-                    {/* Utilisez Link pour la navigation interne */}
-                    <p>Pas encore de compte ? <Link to="/register">Créer un compte</Link></p>
-                </div>
-            )}
             {isRegisterMode && (
-                <div>
+                <div className="form-group">
                     <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
                     <input
                         type="password"
@@ -55,7 +50,19 @@ const LoginForm = ({ onSubmit, isRegisterMode = false }) => {
                     />
                 </div>
             )}
-            <button type="submit">{isRegisterMode ? "S'inscrire" : "Se connecter"}</button>
+            <button type="submit" className="submit-button">
+                {isRegisterMode ? "S'inscrire" : "Se connecter"}
+            </button>
+            {!isRegisterMode && (
+                <div className="form-footer">
+                    <p>Pas encore de compte ? <Link to="/register">Créer un compte</Link></p>
+                </div>
+            )}
+            {isRegisterMode && (
+                <div className="form-footer">
+                    <p>Déjà un compte ? <Link to="/login">Se connecter</Link></p>
+                </div>
+            )}
         </form>
     );
 };

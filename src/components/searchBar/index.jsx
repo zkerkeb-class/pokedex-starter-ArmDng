@@ -1,27 +1,17 @@
 import "./index.css";
 
 const types = [
-    "Bug",
-    "Dark",
-    "Dragon",
-    "Electric",
-    "Fairy",
-    "Fighting",
-    "Fire",
-    "Flying",
-    "Ghost",
-    "Grass",
-    "Ground",
-    "Ice",
-    "Normal",
-    "Poison",
-    "Psychic",
-    "Rock",
-    "Steel",
-    "Water",
+    "Bug", "Dark", "Dragon", "Electric", "Fairy", "Fighting", "Fire", "Flying",
+    "Ghost", "Grass", "Ground", "Ice", "Normal", "Poison", "Psychic", "Rock",
+    "Steel", "Water"
 ];
 
-const SearchBar = ({ search, setSearch, selectedTypes, setSelectedTypes }) => {
+const SearchBar = ({ search, setSearch, selectedTypes, setSelectedTypes, onClear }) => {
+    const handleClear = () => {
+        setSearch("");
+        if (onClear) onClear();
+    };
+
     return (
         <div className="search-container">
             {/* Barre de recherche */}
@@ -35,7 +25,7 @@ const SearchBar = ({ search, setSearch, selectedTypes, setSelectedTypes }) => {
                 />
                 <button
                     className="clear-button"
-                    onClick={() => setSearch("")}
+                    onClick={handleClear}
                 >
                     X
                 </button>

@@ -20,7 +20,7 @@
     margin-bottom: 15px;
 }
 
-.submit-button,
+.submit-pokemon-button,
 .cancel-button {
     display: inline-block;
     margin-right: 10px;
@@ -28,7 +28,7 @@
     border-radius: 5px;
 }
 
-.submit-button {
+.submit-pokemon-button {
     background-color: #4caf50;
     color: white;
 }

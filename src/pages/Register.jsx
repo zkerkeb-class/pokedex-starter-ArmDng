@@ -1,6 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import LoginForm from "../components/LoginForm";
 import { register } from "../services/auth";
-import LoginForm from "../components/LoginForm/index.jsx";
+import { useNavigate } from "react-router-dom";
+import "./Login.css"; // Partage le même style que Login
 
 const Register = () => {
     const navigate = useNavigate();
@@ -8,17 +9,26 @@ const Register = () => {
     const handleRegister = async (username, password) => {
         try {
             await register(username, password);
-            alert("Compte créé avec succès !");
             navigate("/login");
         } catch (error) {
-            alert(error.message || "Échec de l'inscription");
+            alert(error.message);
         }
     };
 
     return (
-        <div>
-            <h2>Créer un compte</h2>
-            <LoginForm onSubmit={handleRegister} isRegisterMode={true} /> {}
+        <div className="auth-container">
+            <div className="auth-card">
+                <div className="auth-header">
+                    <img
+                        src="/pokemon-logo.png"
+                        alt="Pokemon Logo"
+                        className="pokemon-logo"
+                    />
+                    <h1>Créer un compte</h1>
+                    <p>Rejoignez-nous pour commencer votre aventure Pokémon</p>
+                </div>
+                <LoginForm onSubmit={handleRegister} isRegisterMode={true} />
+            </div>
         </div>
     );
 };

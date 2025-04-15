@@ -6,7 +6,7 @@ export const getPaginatedPokemons = async (page, limit = 12) => {
         const response = await api.get(`/pokemons?page=${page}&limit=${limit}`);
         return response.data;
     } catch (error) {
-        throw new Error("Erreur lors de la récupération des Pokémon");
+        throw new Error("Erreur lors de la récupération des Pokémon", error);
     }
 };
 
@@ -42,6 +42,21 @@ export const updatePokemon = async (id, pokemon) => {
         throw error;
     }
 }
+
+// Fonction pour rechercher des pokémons globalement
+export const searchPokemons = async (searchTerm, types = []) => {
+    try {
+        const params = {};
+        if (searchTerm) params.search = searchTerm;
+        if (types && types.length > 0) params.types = types.join(',');
+
+        const response = await api.get('/pokemons/', { params });
+        return response.data;
+    } catch (error) {
+        console.error("Erreur lors de la recherche de Pokémon:", error);
+        throw error;
+    }
+};
 
 // Fonction pour supprimer un Pokémon
 export const deletePokemon = async (id) => {

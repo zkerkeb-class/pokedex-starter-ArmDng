@@ -1,14 +1,54 @@
-*{
-  justify-content: center;
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1e1e1e;
+  font-family: 'Arial', sans-serif;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.pokedex-header {
+/* Container principal */
+.app-container {
+  width: 100vw;
+  max-width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Header avec approche grid */
+.pokedex-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr; /* Divise en 3 colonnes avec proportion fixe */
   align-items: center;
-  padding: 1rem 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
   background-color: #1e1e1e;
   border-bottom: 2px solid #333;
+}
+
+/* Alignement des éléments dans chaque colonne */
+.header-left {
+  justify-self: start;
+}
+
+.header-center {
+  justify-self: center;
+  width: 80%; /* Réduit légèrement la largeur pour un meilleur aspect visuel */
+  max-width: 400px; /* Limite la largeur maximale */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 auto; /* Centre horizontalement dans sa colonne */
+}
+
+.header-right {
+  justify-self: end;
+  display: flex;
+  gap: 10px;
 }
 
 .pokedex-header h1 {
@@ -18,6 +58,15 @@
   letter-spacing: 3px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   margin: 0;
+}
+
+/* Section principale */
+main {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .create-button {
@@ -34,8 +83,22 @@
   background-color: #ff3b3b;
 }
 
+/* Amélioration des éléments de recherche pour un meilleur centrage */
+.search-input, .filter-select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  border: 1px solid #444;
+  margin-bottom: 8px;
+  box-sizing: border-box; /* Assure que le padding est inclus dans la largeur */
+}
+
+/* Ajout pour assurer que le bouton X reste bien positionné si présent */
 .search-container {
-  display: flex;
+  position: relative;
+  width: 100%;
 }
 
 .logout-button {
@@ -51,12 +114,16 @@
   background-color: #d32f2f;
 }
 
+/* Liste de Pokémon */
 .pokemon-list {
   display: grid;
   gap: 20px;
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  justify-content: center;
+  min-height: 300px;
 
   /* Configuration responsive par défaut */
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -82,7 +149,23 @@
   }
 }
 
+/* Style pour le message d'absence de Pokémon */
+.pokemon-list p {
+  grid-column: 1 / -1;
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 40px 0;
+}
 
+/* Style pour l'état vide */
+.pokemon-list:empty::before {
+  content: "";
+  grid-column: 1 / -1; /* Prend toute la largeur de la grille */
+  min-height: 300px;
+}
+
+/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;
@@ -120,4 +203,29 @@
   border-color: #4caf50;
 }
 
+/* Recherche et filtres */
+.search-input, .filter-select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  border: 1px solid #444;
+  margin-bottom: 8px;
+}
 
+.search-input:focus, .filter-select:focus {
+  outline: none;
+  border-color: #4caf50;
+}
+
+.clear-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.clear-button:hover {
+  background-color: #888;
+}

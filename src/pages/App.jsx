@@ -4,6 +4,7 @@ import "./App.css";
 import PokemonCard from "../components/pokemonCard/index.jsx";
 import SearchBar from "../components/searchBar/index.jsx";
 import { getPaginatedPokemons } from "../services/apiPokemon.js";
+import { searchPokemons } from "../services/apiPokemon.js";
 
 function App() {
     const [search, setSearch] = useState("");
@@ -11,13 +12,17 @@ function App() {
     const [pokemonList, setPokemonList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [page, setPage] = useState(1); // Page actuelle
-    const [totalPages, setTotalPages] = useState(1); // Nombre total de pages
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [isSearching, setIsSearching] = useState(false);
 
     const navigate = useNavigate();
 
+    // Récupérer les données paginées au chargement ou lors du changement de page
     useEffect(() => {
         const fetchPokemons = async () => {
+            if (isSearching) return; // Ne pas charger la pagination si en mode recherche
+
             try {
                 setLoading(true);
                 const data = await getPaginatedPokemons(page);
@@ -31,7 +36,31 @@ function App() {
         };
 
         fetchPokemons();
-    }, [page]);
+    }, [page, isSearching]);
+
+    // Effectuer une recherche globale lorsque l'utilisateur tape ou sélectionne des types
+    useEffect(() => {
+        const searchTimer = setTimeout(async () => {
+            if (search.trim() === "" && selectedTypes.length === 0) {
+                setIsSearching(false);
+                return;
+            }
+
+            try {
+                setLoading(true);
+                setIsSearching(true);
+                const result = await searchPokemons(search, selectedTypes);
+                setPokemonList(result.pokemons || []);
+                setTotalPages(1); // Pas de pagination en mode recherche
+            } catch (err) {
+                setError(`Erreur lors de la recherche : ${err.message}`);
+            } finally {
+                setLoading(false);
+            }
+        }, 500); // Délai de 500ms pour éviter trop de requêtes
+
+        return () => clearTimeout(searchTimer);
+    }, [search, selectedTypes]);
 
     const handleCardClick = (pokemonId) => {
         navigate(`/pokemon/${pokemonId}`);
@@ -41,13 +70,11 @@ function App() {
         navigate("/pokemon/new");
     };
 
-    const handlePageInputChange = (e) => {
-        const inputPage = parseInt(e.target.value);
-        if (inputPage >= 1 && inputPage <= totalPages) {
-            setPage(inputPage);
-        } else {
-            alert(`Veuillez entrer un numéro entre 1 et ${totalPages}`);
-        }
+    const handleClearSearch = () => {
+        setSearch("");
+        setSelectedTypes([]);
+        setIsSearching(false);
+        setPage(1);
     };
 
     if (loading) return <p>Chargement...</p>;
@@ -56,49 +83,66 @@ function App() {
     return (
         <div className="app-container">
             <header className="pokedex-header">
-                <h1>Pokédex</h1>
-                <SearchBar
-                    search={search}
-                    setSearch={setSearch}
-                    selectedTypes={selectedTypes}
-                    setSelectedTypes={setSelectedTypes}
-                />
-                <button className="create-button" onClick={handleCreateClick}>
-                    Créer un Pokémon
-                </button>
-                <button className="logout-button" onClick={() => navigate("/login")}>
-                    Déconnexion
-                </button>
+                <div className="header-left">
+                    <h1>Pokédex</h1>
+                </div>
+
+                <div className="header-center">
+                    <SearchBar
+                        search={search}
+                        setSearch={setSearch}
+                        selectedTypes={selectedTypes}
+                        setSelectedTypes={setSelectedTypes}
+                        onClear={handleClearSearch}
+                    />
+                </div>
+                <div className="header-right">
+                    <button className="create-button" onClick={handleCreateClick}>
+                        Créer un Pokémon
+                    </button>
+                    <button className="logout-button" onClick={() => navigate("/login")}>
+                        Déconnexion
+                    </button>
+                </div>
             </header>
             <main className="pokemon-list">
-                {pokemonList &&
-                    pokemonList.length > 0 &&
+                {pokemonList.length > 0 ? (
                     pokemonList.map((pokemon) => (
                         <PokemonCard
                             key={pokemon.id}
                             pokemon={pokemon}
                             onClick={() => handleCardClick(pokemon.id)}
                         />
-                    ))}
+                    ))
+                ) : (
+                    <p className="no-pokemon-message">Aucun Pokémon trouvé</p>
+                )}
             </main>
-            {/* Pagination */}
-            <footer className="pagination">
-                <button disabled={page === 1} onClick={() => setPage(page - 1)}>
-                    Précédent
-                </button>
-                <span>Page {page} sur {totalPages}</span>
-                <input
-                    type="number"
-                    min="1"
-                    max={totalPages}
-                    placeholder="Aller à..."
-                    onChange={handlePageInputChange}
-                    style={{ width: "80px", marginLeft: "10px" }}
-                />
-                <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
-                    Suivant
-                </button>
-            </footer>
+            {/* Pagination (visible uniquement si pas en mode recherche) */}
+            {!isSearching && (
+                <footer className="pagination">
+                    <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+                        Précédent
+                    </button>
+                    <span>Page {page} sur {totalPages}</span>
+                    <input
+                        type="number"
+                        min="1"
+                        max={totalPages}
+                        placeholder="Aller à..."
+                        onChange={(e) => {
+                            const inputPage = parseInt(e.target.value);
+                            if (inputPage >= 1 && inputPage <= totalPages) {
+                                setPage(inputPage);
+                            }
+                        }}
+                        style={{ width: "80px", marginLeft: "10px" }}
+                    />
+                    <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+                        Suivant
+                    </button>
+                </footer>
+            )}
         </div>
     );
 }
