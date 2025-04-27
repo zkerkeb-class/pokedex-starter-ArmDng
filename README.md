@@ -2,6 +2,11 @@
 
 A modern React application for exploring Pokémon, with authentication, search functionality, and a Pokémon battle game.
 
+Lien Vidéo :
+```
+https://www.youtube.com/watch?v=ofAj-8pQBZQ
+```
+
 ## Features
 
 - **User Authentication**: Login and registration system
