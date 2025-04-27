@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./App.css";
 import PokemonCard from "../components/pokemonCard/index.jsx";
 import SearchBar from "../components/searchBar/index.jsx";
 import { getPaginatedPokemons } from "../services/apiPokemon.js";
 import { searchPokemons } from "../services/apiPokemon.js";
+import AuthContext from "../contexts/AuthContext";
 
 function App() {
     const [search, setSearch] = useState("");
@@ -17,11 +18,11 @@ function App() {
     const [isSearching, setIsSearching] = useState(false);
 
     const navigate = useNavigate();
+    const { username } = useContext(AuthContext);
 
-    // Récupérer les données paginées au chargement ou lors du changement de page
     useEffect(() => {
         const fetchPokemons = async () => {
-            if (isSearching) return; // Ne pas charger la pagination si en mode recherche
+            if (isSearching) return; 
 
             try {
                 setLoading(true);
@@ -29,7 +30,7 @@ function App() {
                 setPokemonList(data.pokemons);
                 setTotalPages(data.pages);
             } catch (err) {
-                setError(`Erreur lors du chargement des Pokémon : ${err.message}`);
+                setError(`${err.message}`);
             } finally {
                 setLoading(false);
             }
@@ -38,7 +39,7 @@ function App() {
         fetchPokemons();
     }, [page, isSearching]);
 
-    // Effectuer une recherche globale lorsque l'utilisateur tape ou sélectionne des types
+    
     useEffect(() => {
         const searchTimer = setTimeout(async () => {
             if (search.trim() === "" && selectedTypes.length === 0) {
@@ -51,13 +52,13 @@ function App() {
                 setIsSearching(true);
                 const result = await searchPokemons(search, selectedTypes);
                 setPokemonList(result.pokemons || []);
-                setTotalPages(1); // Pas de pagination en mode recherche
+                setTotalPages(1); 
             } catch (err) {
-                setError(`Erreur lors de la recherche : ${err.message}`);
+                setError(`${err.message}`);
             } finally {
                 setLoading(false);
             }
-        }, 500); // Délai de 500ms pour éviter trop de requêtes
+        }, 500); 
 
         return () => clearTimeout(searchTimer);
     }, [search, selectedTypes]);
@@ -77,18 +78,18 @@ function App() {
         setPage(1);
     };
 
+    const handleLogout = () => {
+        navigate("/login");
+    };
+
     if (loading) return <p>Chargement...</p>;
-    if (error) return <p>{error}</p>;
 
     return (
         <div className="app-container">
             <header className="pokedex-header">
-                <div className="header-left">
-                    <h1>Pokédex</h1>
-                </div>
-
-                <div className="header-center">
-                    <SearchBar
+                <h1>Pokédex</h1>
+                <div className="search-container">
+                <SearchBar
                         search={search}
                         setSearch={setSearch}
                         selectedTypes={selectedTypes}
@@ -97,14 +98,24 @@ function App() {
                     />
                 </div>
                 <div className="header-right">
+                <button className="game-button" onClick={() => navigate("/game")}>
+                        Jouer
+                    </button>
                     <button className="create-button" onClick={handleCreateClick}>
                         Créer un Pokémon
                     </button>
-                    <button className="logout-button" onClick={() => navigate("/login")}>
+                    {username && <span className="username">Bonjour, {username}</span>}
+                    <button className="logout-button" onClick={handleLogout}>
                         Déconnexion
                     </button>
                 </div>
             </header>
+            {error && (
+                <div className="error-message">
+                    {error}
+                    <button onClick={() => setError(null)}>✕</button>
+                </div>
+            )}
             <main className="pokemon-list">
                 {pokemonList.length > 0 ? (
                     pokemonList.map((pokemon) => (
@@ -118,7 +129,6 @@ function App() {
                     <p className="no-pokemon-message">Aucun Pokémon trouvé</p>
                 )}
             </main>
-            {/* Pagination (visible uniquement si pas en mode recherche) */}
             {!isSearching && (
                 <footer className="pagination">
                     <button disabled={page === 1} onClick={() => setPage(page - 1)}>

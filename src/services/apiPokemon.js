@@ -1,12 +1,23 @@
 import {api} from "./api.js";
 
+
+export const getAllPokemons = async () => {
+    try {
+        const response = await api.get('/pokemons');
+        return response.data;
+    } catch (error) {
+        console.error("Erreur while getting Pokemons", error);
+        throw new Error("Erreur lors de la récupération des Pokémon. Veuillez réessayer ultérieurement.", error);
+    }
+}
 // Fonction pour récupérer les Pokémon paginés
 export const getPaginatedPokemons = async (page, limit = 12) => {
     try {
         const response = await api.get(`/pokemons?page=${page}&limit=${limit}`);
         return response.data;
     } catch (error) {
-        throw new Error("Erreur lors de la récupération des Pokémon", error);
+        console.error("Erreur while getting Pokemons", error);
+        throw new Error("Erreur lors de la récupération des Pokémon. Veuillez réessayer ultérieurement.", error);
     }
 };
 
@@ -17,7 +28,7 @@ export const getPokemonById = async (id) => {
         return response.data;
     } catch (error) {
         console.error('Error while fetching pokemons with the id ', id, error);
-        throw error;
+        throw new Error('Erreur lors de la récupération du Pokémon. Veuillez réessayer ultérieurement.', error);
     }
 }
 
@@ -28,7 +39,7 @@ export const createPokemon = async (pokemon) => {
         return response.data;
     } catch (error) {
         console.error('Error while creating pokemon', error);
-        throw error;
+        throw new Error('Erreur lors de la création du Pokémon. Veuillez réessayer ultérieurement.', error);
     }
 }
 
@@ -39,7 +50,7 @@ export const updatePokemon = async (id, pokemon) => {
         return response.data;
     } catch (error) {
         console.error('Error while updating pokemon', error);
-        throw error;
+        throw new Error('Erreur lors de la mise à jour du Pokémon. Veuillez réessayer ultérieurement.', error);
     }
 }
 
@@ -53,8 +64,8 @@ export const searchPokemons = async (searchTerm, types = []) => {
         const response = await api.get('/pokemons/', { params });
         return response.data;
     } catch (error) {
-        console.error("Erreur lors de la recherche de Pokémon:", error);
-        throw error;
+        console.error("Error while searching Pokemons", error);
+        throw new Error("Erreur lors de la recherche des Pokémon. Veuillez réessayer ultérieurement.", error);
     }
 };
 
@@ -65,6 +76,6 @@ export const deletePokemon = async (id) => {
         return response.data;
     } catch (error) {
         console.error('Error while deleting pokemon', error);
-        throw error;
+        throw new Error('Erreur lors de la suppression du Pokémon. Veuillez réessayer ultérieurement.', error);
     }
 }

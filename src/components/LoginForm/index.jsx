@@ -1,25 +1,34 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "./LoginForm.css";
+import "./index.css";
 
-const LoginForm = ({ onSubmit, isRegisterMode = false }) => {
+const LoginForm = ({ onSubmit, isRegisterMode = false, error = null }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [localError, setLocalError] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLocalError(null);
+
         if (isRegisterMode && password !== confirmPassword) {
-            alert("Les mots de passe ne correspondent pas !");
+            setLocalError("Les mots de passe ne correspondent pas !");
             return;
         }
+
         onSubmit(username, password);
     };
 
     return (
         <form onSubmit={handleSubmit}>
+            {(error || localError) && (
+                <div className="error-message">
+                    {localError || error}
+                </div>
+            )}
             <div className="form-group">
-                <label htmlFor="username">Nom d'utilisateur</label>
+                <label htmlFor="username">Nom d&apos;utilisateur</label>
                 <input
                     type="text"
                     id="username"

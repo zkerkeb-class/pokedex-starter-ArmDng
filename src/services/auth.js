@@ -5,7 +5,7 @@ export const login = async (username, password) => {
     try {
         const response = await api.post('/login', { username, password });
         if (response.data.token) {
-            localStorage.setItem("token", response.data.token); // Stocker le token JWT dans le localStorage
+            localStorage.setItem("token", response.data.token); 
         }
         return response.data;
     } catch (error) {
@@ -22,19 +22,32 @@ export const register = async (username, password) => {
         if (error.response && error.response.status === 429) {
             alert("Trop de tentatives. Veuillez réessayer plus tard.");
         } else {
-            alert("Erreur lors de l'inscription.");
+            throw error.response ? error.response.data : new Error("Erreur serveur");
         }
     }
 };
 
-
-
 // Fonction pour se déconnecter
 export const logout = () => {
-    localStorage.removeItem("token"); // Supprime le token du localStorage
+    localStorage.removeItem("token"); 
 };
 
 // Fonction pour vérifier si un utilisateur est authentifié
 export const isAuthenticated = () => {
     return !!localStorage.getItem("token");
+};
+
+// Ajouter cette fonction pour décoder le JWT
+export const getUsernameFromToken = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    
+    try {
+        const payload = token.split('.')[1];
+        const decodedPayload = JSON.parse(atob(payload));
+        return decodedPayload.username;
+    } catch (error) {
+        console.error("Erreur lors du décodage du token:", error);
+        return null;
+    }
 };

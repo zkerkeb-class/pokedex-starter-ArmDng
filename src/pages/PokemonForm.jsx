@@ -34,7 +34,6 @@ const PokemonForm = () => {
         }
     }, [id, isCreating]);
 
-    // Gestion des changements dans le formulaire
     const handleChange = (e) => {
         const { name, value } = e.target;
 

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import LoginForm from "../components/LoginForm";
 import { register } from "../services/auth";
 import { useNavigate } from "react-router-dom";
@@ -5,13 +6,15 @@ import "./Login.css"; // Partage le même style que Login
 
 const Register = () => {
     const navigate = useNavigate();
+    const [registerError, setRegisterError] = useState(null);
 
     const handleRegister = async (username, password) => {
         try {
+            setRegisterError(null); 
             await register(username, password);
             navigate("/login");
         } catch (error) {
-            alert(error.message);
+            setRegisterError(error.message);
         }
     };
 
@@ -27,7 +30,11 @@ const Register = () => {
                     <h1>Créer un compte</h1>
                     <p>Rejoignez-nous pour commencer votre aventure Pokémon</p>
                 </div>
-                <LoginForm onSubmit={handleRegister} isRegisterMode={true} />
+                <LoginForm
+                    onSubmit={handleRegister}
+                    isRegisterMode={true}
+                    error={registerError}
+                />
             </div>
         </div>
     );

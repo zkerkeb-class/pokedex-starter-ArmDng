@@ -6,6 +6,7 @@ import PokemonForm from "../pages/PokemonForm.jsx";
 import Login from "../pages/Login.jsx";
 import ProtectedRoute from "./ProtectedRoute";
 import Register from "../pages/Register.jsx";
+import Game from "../pages/Game.jsx";
 
 let router = createBrowserRouter([
     {
@@ -40,6 +41,14 @@ let router = createBrowserRouter([
             </ProtectedRoute>
         ),
     },
+    {
+        path: "/game",
+        element: (
+            <ProtectedRoute>
+                <Game />
+            </ProtectedRoute>
+        ),
+    }
 ]);
 
 export default router;

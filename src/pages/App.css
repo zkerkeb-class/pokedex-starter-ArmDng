@@ -18,10 +18,9 @@ body {
   overflow-x: hidden;
 }
 
-/* Header avec approche grid */
 .pokedex-header {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr; /* Divise en 3 colonnes avec proportion fixe */
+  grid-template-columns: 1fr 2fr 1fr; 
   align-items: center;
   width: 100%;
   box-sizing: border-box;
@@ -30,19 +29,18 @@ body {
   border-bottom: 2px solid #333;
 }
 
-/* Alignement des éléments dans chaque colonne */
 .header-left {
   justify-self: start;
 }
 
 .header-center {
   justify-self: center;
-  width: 80%; /* Réduit légèrement la largeur pour un meilleur aspect visuel */
-  max-width: 400px; /* Limite la largeur maximale */
+  width: 80%; 
+  max-width: 400px; 
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 0 auto; /* Centre horizontalement dans sa colonne */
+  margin: 0 auto; 
 }
 
 .header-right {
@@ -58,6 +56,17 @@ body {
   letter-spacing: 3px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   margin: 0;
+}
+
+.username {
+  color: white;
+  font-weight: bold;
+  margin-right: 10px;
+  padding: 8px 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
 }
 
 /* Section principale */
@@ -83,7 +92,7 @@ main {
   background-color: #ff3b3b;
 }
 
-/* Amélioration des éléments de recherche pour un meilleur centrage */
+
 .search-input, .filter-select {
   width: 100%;
   padding: 10px;
@@ -92,10 +101,10 @@ main {
   color: white;
   border: 1px solid #444;
   margin-bottom: 8px;
-  box-sizing: border-box; /* Assure que le padding est inclus dans la largeur */
+  box-sizing: border-box; 
 }
 
-/* Ajout pour assurer que le bouton X reste bien positionné si présent */
+
 .search-container {
   position: relative;
   width: 100%;
@@ -161,7 +170,7 @@ main {
 /* Style pour l'état vide */
 .pokemon-list:empty::before {
   content: "";
-  grid-column: 1 / -1; /* Prend toute la largeur de la grille */
+  grid-column: 1 / -1; 
   min-height: 300px;
 }
 
@@ -228,4 +237,23 @@ main {
 
 .clear-button:hover {
   background-color: #888;
+}
+
+.error-message {
+  background-color: #ff5c5c;
+  color: white;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.error-message button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
