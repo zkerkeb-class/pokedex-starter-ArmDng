@@ -22,7 +22,7 @@ const PokemonCard = ({ pokemon, onClick }) => {
 
             <div className="type-container">
                 {pokemon.type.map((type, index) => (
-                    <img key={index} src={`src/assets/types/${type}.png`} alt={`${type}.png`} />
+                    <img key={index} src={`${type}`} alt={`${type}`} />
                 ))}
             </div>
 
