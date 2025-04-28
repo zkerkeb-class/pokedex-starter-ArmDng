@@ -6,6 +6,10 @@ Link of the video of presentation :
 ```
 https://www.youtube.com/watch?v=ofAj-8pQBZQ
 ```
+This application will be deployed until the 1st May on this website :
+```
+https://ra6.dev/login
+```
 
 ## Features
 
