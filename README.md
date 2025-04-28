@@ -52,14 +52,7 @@ https://ra6.dev/login
     npm install
     ```
 
-3. Create a `.env` file in the root directory and add the following environment variables:
-    ```plaintext
-    MONGODB_URI=mongodb://localhost:27017/pokedex
-    JWT_SECRET=your_jwt_secret_key
-    FRONTEND_URL=http://localhost:5173
-    ```
-
-4. Start the server:
+3. Start the server:
     ```bash
     npm start
     ```
