@@ -1,0 +1,43 @@
+.pokemon-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.pokemon-form h1 {
+    text-align: center;
+}
+
+.pokemon-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.pokemon-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+}
+
+.submit-pokemon-button,
+.cancel-button {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.submit-pokemon-button {
+    background-color: #4caf50;
+    color: white;
+}
+
+.cancel-button {
+    color: white;
+}
+
+.delete-button {
+    background-color: #ff1200;
+    color: white;
+}
